@@ -11,7 +11,7 @@ function GridView() {
       {reviews.slice(0, 20).map((review) => (
         <ImageBox
           onClick={() => handleClickImage(review.id)}
-          src={`https://i.balaan.io/review/${review.img[0]}`}
+          src={review.src}
         />
       ))}
     </GridViewWrap>
