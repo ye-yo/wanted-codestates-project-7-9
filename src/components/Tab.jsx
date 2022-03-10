@@ -18,7 +18,7 @@ function Tab() {
           </TabItem>
         ))}
       </TabRow>
-      <GridView>ddd</GridView>
+      {currentTab === 0 ? <GridView>ddd</GridView> : 'list'}
     </TabWrap>
   );
 }
