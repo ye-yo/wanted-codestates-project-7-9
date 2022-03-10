@@ -3,10 +3,12 @@ import {
   ADD_REVIEW,
   LIKE_REVIEW,
   UNLIKE_REVIEW,
+  SET_SORT_OPTION,
 } from '../actions/types';
 
 const initialState = {
   reviews: [],
+  sortOption: null,
 };
 export default function review(state = initialState, action = {}) {
   switch (action.type) {
@@ -38,6 +40,11 @@ export default function review(state = initialState, action = {}) {
             ? { ...data, likes: data.likes - 1 }
             : data
         )),
+      };
+    case SET_SORT_OPTION:
+      return {
+        ...state,
+        sortOption: action.payload,
       };
     default:
       return state;

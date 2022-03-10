@@ -2,6 +2,7 @@ export const REVIEWS = 'review/REVIEWS';
 export const ADD_REVIEW = 'review/ADD_REVIEW';
 export const LIKE_REVIEW = 'review/LIKE_REVIEW';
 export const UNLIKE_REVIEW = 'review/UNLIKE_REVIEW';
+export const SET_SORT_OPTION = 'review/SET_SORT_OPTION';
 
 export const COMMENTS = 'comment/COMMENTS';
 export const ADD_COMMENT = 'comment/ADD_COMMENT';

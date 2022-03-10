@@ -3,6 +3,7 @@ import {
   ADD_REVIEW,
   LIKE_REVIEW,
   UNLIKE_REVIEW,
+  SET_SORT_OPTION,
 } from './types';
 
 export const reviews = (datas) => ({
@@ -23,4 +24,9 @@ export const likeReview = (postNumber) => ({
 export const unlikeReview = (postNumber) => ({
   type: UNLIKE_REVIEW,
   payload: postNumber,
+});
+
+export const setSortOption = (sortOption) => ({
+  type: SET_SORT_OPTION,
+  payload: sortOption,
 });
