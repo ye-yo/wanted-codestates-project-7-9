@@ -1,20 +1,26 @@
+import { BsGrid3X3, BsViewList } from 'react-icons/bs';
 import { useState } from 'react';
 import styled from 'styled-components';
 import GridView from './GridView';
-import TAB_ICON_LIST from '../contants/tab';
+
+const iconList = [
+  { index: 0, icon: <BsGrid3X3 /> },
+  { index: 1, icon: <BsViewList /> },
+];
 
 function Tab() {
   const [currentTab, setCurrentTab] = useState(0);
   return (
     <TabWrap>
       <TabRow>
-        {TAB_ICON_LIST.map(({ icon, index }) => (
+        {iconList.map(({ icon, index }) => (
           <TabItem
             selected={currentTab === index}
             key={index}
+            index={index}
             onClick={() => setCurrentTab(index)}
           >
-            <img src={icon} />
+            {icon}
           </TabItem>
         ))}
       </TabRow>
@@ -38,8 +44,9 @@ const TabItem = styled.button`
   background: none;
   border: none;
   border-bottom: 2px solid ${({ selected }) => (selected ? '#000' : '#b3b3b3')};
-  > img {
-    max-width: 2rem;
+  > svg {
+    width: auto;
+    height: ${({ index }) => (index === 0 ? '1.5rem' : '1.72rem')};
     margin-top: 0.2rem;
     opacity: ${({ selected }) => (selected ? 1 : 0.3)};
   }
