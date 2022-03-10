@@ -8,7 +8,7 @@ import {
 const initialState = {
   reviews: [],
 };
-export default function review(state = initialState, action = null) {
+export default function review(state = initialState, action = {}) {
   switch (action.type) {
     case REVIEWS:
       return {
@@ -27,7 +27,8 @@ export default function review(state = initialState, action = null) {
         reviews: state.reviews.map((data) => (
           data.postNumber === action.payload
             ? { ...data, likes: data.likes + 1 }
-            : data)),
+            : data
+        )),
       };
     case UNLIKE_REVIEW:
       return {
@@ -35,7 +36,8 @@ export default function review(state = initialState, action = null) {
         reviews: state.reviews.map((data) => (
           data.postNumber === action.payload
             ? { ...data, likes: data.likes - 1 }
-            : data)),
+            : data
+        )),
       };
     default:
       return state;
