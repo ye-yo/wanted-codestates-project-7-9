@@ -18,7 +18,7 @@ const ReviewCustom = styled.div`
   height: 50px;
   align-items: center;
   justify-content: space-between;
-  margin: 1vw 1vh;
+  margin: 1vw 1vh 0;
   box-shadow: 0 4px 4px -4px rgb(0 0 0 / 20%);
   padding: 1vw;
 `;
