@@ -12,4 +12,11 @@ const Button = styled.button`
   font-weight: bold;
 `;
 
+export const RoundedButton = styled.button`
+  padding: 0.7rem 1rem;
+  font-size: 1.2rem;
+  border-radius: 3rem;
+  background: none;
+`;
+
 export default Button;

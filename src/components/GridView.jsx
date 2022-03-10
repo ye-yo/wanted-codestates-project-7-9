@@ -1,24 +1,32 @@
+import { memo } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function GridView() {
-  const reviews = [];
+function GridView({ datas }) {
+  const navigate = useNavigate();
   const handleClickImage = (reviewId) => {
-    // 상세 페이지로 이동
+    navigate(`/details/${reviewId}`);
   };
 
   return (
     <GridViewWrap>
-      {reviews.map((review) => (
+      {datas.map((review) => (
         <ImageBox
+          key={review.id}
           onClick={() => handleClickImage(review.id)}
-          src={review.src}
+          src={review.images?.[0]?.src}
         />
       ))}
     </GridViewWrap>
   );
 }
 
-export default GridView;
+export default memo(GridView);
+
+GridView.propTypes = {
+  datas: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])).isRequired,
+};
 
 const GridViewWrap = styled.section`
   width: 100%;
@@ -32,6 +40,8 @@ const ImageBox = styled.img`
   width: 100%;
   height: 100%;
   max-height: calc((500px - 2px) / 3);
+  object-fit: cover;
+  cursor: pointer;
   @media only screen and (max-width: 500px) {
     max-height: calc((100vw - 2px) / 3);
   }
