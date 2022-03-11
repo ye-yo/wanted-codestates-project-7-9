@@ -54,7 +54,11 @@ function Tab() {
           </TabItem>
         ))}
       </TabRow>
-      {currentTab === 0 ? <GridView datas={sortedReviews} /> : <ListView />}
+      {currentTab === 0 ? (
+        <GridView datas={sortedReviews} />
+      ) : (
+        <ListView datas={sortedReviews} />
+      )}
     </TabWrap>
   );
 }
