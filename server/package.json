@@ -1,0 +1,19 @@
+{
+  "name": "crawler",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "author": "jinyongp <dev.jinyongp@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:crawler": "node crawler",
+    "invoke:local": "serverless invoke local -f contents"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "puppeteer": "^13.5.1"
+  },
+  "devDependencies": {
+    "serverless-google-cloudfunctions": "*"
+  }
+}
