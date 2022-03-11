@@ -6,12 +6,14 @@ import ReviewListPage from './pages/ReviewListPage';
 import ReviewDetailsPage from './pages/ReviewDetailsPage';
 import ReviewRegisterPage from './pages/ReviewRegisterPage';
 import Header from './components/Header';
+import ScrollTop from './components/ScrollTop';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Router>
+        <ScrollTop />
         <Header />
         <Routes>
           <Route path="/" element={<ReviewListPage />} />
