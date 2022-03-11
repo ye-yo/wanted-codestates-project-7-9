@@ -15,9 +15,10 @@ export default Header;
 const HeaderCustom = styled.header`
   display: grid;
   place-items: center;
-  padding: 2vh 0;
+  padding-top: 2vh;
 `;
 
 const Logo = styled.img`
-  width: 200px;
+  max-width: 200px;
+  width: 38vw;
 `;
