@@ -1,12 +1,14 @@
 const color = {
   black: '#000',
   white: '#fff',
+  whiteGray: '#f4f4f4',
   gray: '#999',
   lightgray: '#E0E0E0',
   blue: '#4348a2',
   borderBlue: '#868ceb',
   backBlue: '#e7e8f9',
   backLightGray: '#f9f9f9',
+  unselected: '#E5E5E5',
 };
 
 const buttonBlueBorder = {
