@@ -26,9 +26,7 @@ function SortBar() {
       <Selector name="정렬" onClick={toggleModal} />
       <FilterButton>전체</FilterButton>
       <FilterButton>{sortOption}</FilterButton>
-      <RefreshButton onClick={handleClickRefresh}>
-        <IoRefreshOutline />
-      </RefreshButton>
+      <RefreshButton onClick={handleClickRefresh} />
       {isOpenModal && <SortModal setIsOpenModal={setIsOpenModal} />}
     </FilterRow>
   );
@@ -53,7 +51,7 @@ const FilterButton = styled(RoundedButton)`
   margin-left: 0.4rem;
 `;
 
-const RefreshButton = styled.button`
+const RefreshButton = styled(IoRefreshOutline)`
   margin-left: auto;
   border: none;
   color: ${({ theme }) => theme.color.gray};
@@ -61,9 +59,6 @@ const RefreshButton = styled.button`
   width: auto;
   height: 2rem;
   margin-right: .6rem;
-  > svg {
-    transform: rotate(45deg);
-    width: 100%;
-    height: 100%;
-  }
+  transform: rotate(45deg);
+  cursor: pointer;
 `;

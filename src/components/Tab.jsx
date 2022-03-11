@@ -18,7 +18,6 @@ function Tab() {
   const reviewList = useSelector((state) => state.review.reviews);
   const sortOption = useSelector((state) => state.review.sortOption);
   const [sortedReviews, setSortedReviews] = useState(reviewList);
-
   useEffect(() => {
     if (sortOption) {
       const originReviews = [...reviewList];
@@ -52,7 +51,7 @@ function Tab() {
         ))}
       </TabRow>
       {currentTab === 0 ? (
-        <GridView datas={sortedReviews}>ddd</GridView>
+        <GridView datas={sortedReviews} />
       ) : (
         'list'
       )}
