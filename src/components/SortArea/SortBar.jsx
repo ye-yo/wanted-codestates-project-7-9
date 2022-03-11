@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import { useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { IoRefreshOutline } from 'react-icons/io5';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshReviews } from '../../redux/actions/review';
 import Selector from './Selector';
 import SortModal from './SortModal';
 import { RoundedButton } from '../Button';
 import SORT_OPTIONS from '../../constants/sort';
+import useData from '../../hooks/useData';
 
 function SortBar() {
+  const dispatch = useDispatch();
+  const fetchData = useData();
   const sortOption = useSelector(
     (state) => state.review.sortOption || SORT_OPTIONS[0],
   );
@@ -17,8 +21,9 @@ function SortBar() {
     setIsOpenModal((isOpen) => !isOpen);
   }, []);
 
-  const handleClickRefresh = () => {
-    // 데이터 re-fetch
+  const handleClickRefresh = async () => {
+    const data = await fetchData(1, 20);
+    dispatch(refreshReviews(data));
   };
 
   return (

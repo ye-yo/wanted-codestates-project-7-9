@@ -19,6 +19,9 @@ function Tab() {
   const sortOption = useSelector((state) => state.review.sortOption);
   const [sortedReviews, setSortedReviews] = useState(reviewList);
   useEffect(() => {
+    setSortedReviews(reviewList);
+  }, [reviewList]);
+  useEffect(() => {
     if (sortOption) {
       const originReviews = [...reviewList];
       switch (sortOption) {
@@ -34,7 +37,7 @@ function Tab() {
     } else {
       return false;
     }
-  }, [sortOption, reviewList]);
+  }, [sortOption]);
 
   return (
     <TabWrap>

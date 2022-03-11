@@ -13,6 +13,9 @@ const useInfiniteScroll = ({ getMoreItems }) => {
   }, [getMoreItems, loading]);
 
   useEffect(() => {
+    if (!containerRef?.current) {
+      return false;
+    }
     let observer;
     const { current } = containerRef;
     const { length } = current.children;

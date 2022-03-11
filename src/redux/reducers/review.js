@@ -1,5 +1,6 @@
 import {
-  REVIEWS,
+  SET_REVIEWS,
+  REFRESH_REVIEWS,
   ADD_REVIEW,
   LIKE_REVIEW,
   UNLIKE_REVIEW,
@@ -12,7 +13,12 @@ const initialState = {
 };
 export default function review(state = initialState, action = {}) {
   switch (action.type) {
-    case REVIEWS:
+    case SET_REVIEWS:
+      return {
+        ...state,
+        reviews: [...state.reviews, ...action.payload],
+      };
+    case REFRESH_REVIEWS:
       return {
         ...state,
         reviews: action.payload,

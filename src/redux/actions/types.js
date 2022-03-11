@@ -1,4 +1,5 @@
-export const REVIEWS = 'review/REVIEWS';
+export const SET_REVIEWS = 'review/SET_REVIEWS';
+export const REFRESH_REVIEWS = 'review/REFRESH_REVIEWS';
 export const ADD_REVIEW = 'review/ADD_REVIEW';
 export const LIKE_REVIEW = 'review/LIKE_REVIEW';
 export const UNLIKE_REVIEW = 'review/UNLIKE_REVIEW';
