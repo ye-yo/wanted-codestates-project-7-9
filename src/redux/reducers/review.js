@@ -16,12 +16,12 @@ export default function review(state = initialState, action = {}) {
     case SET_REVIEWS:
       return {
         ...state,
-        reviews: [...state.reviews, ...action.payload],
+        reviews: action.isInit ? action.payload : [...state.reviews, ...action.payload],
       };
     case REFRESH_REVIEWS:
       return {
         ...state,
-        reviews: action.payload,
+        reviews: [],
       };
     case ADD_REVIEW: {
       return {

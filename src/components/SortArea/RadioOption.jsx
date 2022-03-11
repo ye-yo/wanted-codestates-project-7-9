@@ -2,9 +2,11 @@ import { memo } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
-function RadioOption({ name, checked, onClick }) {
+function RadioOption({
+  name, value, checked, onClick,
+}) {
   return (
-    <RadioRow checked={checked} onClick={() => onClick(name)}>
+    <RadioRow checked={checked} onClick={() => onClick({ name, value })}>
       {name}
       <RadioIcon checked={checked} />
     </RadioRow>
@@ -15,6 +17,7 @@ export default memo(RadioOption);
 
 RadioOption.propTypes = {
   name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };

@@ -82,16 +82,17 @@ const SortList = memo(({ sortOption, onChange }) => (
     {SORT_OPTIONS.map((option) => (
       <RadioOption
         onClick={onChange}
-        key={option}
-        name={option}
-        checked={sortOption === option}
+        key={option.value}
+        name={option.name}
+        value={option.value}
+        checked={sortOption?.name === option.name}
       />
     ))}
   </SortListWrap>
 ));
 
 SortList.propTypes = {
-  sortOption: PropTypes.string.isRequired,
+  sortOption: PropTypes.objectOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

@@ -4,15 +4,17 @@ const useInfiniteScroll = ({ getMoreItems }) => {
   const [containerRef, setContainerRef] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const onIntersect = useCallback(async ([entry], observer) => {
-    if (entry.isIntersecting && !loading) {
-      setLoading(true);
-      observer.unobserve(entry.target);
-      await getMoreItems();
-      observer.observe(entry.target);
-      setLoading(false);
-    }
-  }, [getMoreItems, loading]);
+  const onIntersect = useCallback(
+    async ([entry], observer) => {
+      if (entry.isIntersecting && !loading) {
+        setLoading(true);
+        observer.unobserve(entry.target);
+        await getMoreItems();
+        setLoading(false);
+      }
+    },
+    [getMoreItems, loading],
+  );
 
   useEffect(() => {
     if (!containerRef?.current) {
@@ -30,7 +32,10 @@ const useInfiniteScroll = ({ getMoreItems }) => {
   });
 
   return {
-    containerRef, setContainerRef, loading, setLoading,
+    containerRef,
+    setContainerRef,
+    loading,
+    setLoading,
   };
 };
 

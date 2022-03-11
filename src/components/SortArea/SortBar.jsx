@@ -30,7 +30,7 @@ function SortBar() {
     <FilterRow>
       <Selector name="정렬" onClick={toggleModal} />
       <FilterButton>전체</FilterButton>
-      <FilterButton>{sortOption}</FilterButton>
+      <FilterButton>{sortOption.name}</FilterButton>
       <RefreshButton onClick={handleClickRefresh} />
       {isOpenModal && <SortModal setIsOpenModal={setIsOpenModal} />}
     </FilterRow>
