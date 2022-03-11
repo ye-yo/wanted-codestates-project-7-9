@@ -19,14 +19,12 @@ function GridView({ datas }) {
   const listRef = useRef();
   const fetchData = useData();
   const getMoreItems = useCallback(async () => {
-    setLoading(true);
     page += 1;
     const data = await fetchData(page, 20);
     dispatch(setReviews(data));
-    setLoading(false);
-  }, []);
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+  const { setContainerRef } = useInfiniteScroll({ getMoreItems });
   useEffect(() => {
     getMoreItems();
   }, [getMoreItems]);
