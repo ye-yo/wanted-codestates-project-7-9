@@ -6,6 +6,7 @@ import {
   LIKE_REVIEW,
   UNLIKE_REVIEW,
   SET_SORT_OPTION,
+  DETAIL_REVIEW,
 } from './types';
 
 const SERVER_LESS_API = 'https://asia-northeast3-team-projects-343711.cloudfunctions.net/balaan-crawler-dev-contents';
@@ -44,4 +45,12 @@ export const unlikeReview = (postNumber) => ({
 export const setSortOption = (sortOption) => ({
   type: SET_SORT_OPTION,
   payload: sortOption,
+});
+
+export const detialReview = (id, reviewList) => ({
+  type: DETAIL_REVIEW,
+  payload: [
+    ...reviewList.filter((item) => item.id === id),
+    ...reviewList.filter((item) => item.id !== id),
+  ],
 });
