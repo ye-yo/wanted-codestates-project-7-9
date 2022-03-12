@@ -6,6 +6,7 @@ import {
   UNLIKE_REVIEW,
   SET_SORT_OPTION,
   DETAIL_REVIEW,
+  DETAIL_ADD_COMMENT,
 } from '../actions/types';
 
 const initialState = {
@@ -59,6 +60,11 @@ export default function review(state = initialState, action = {}) {
         sortOption: action.payload,
       };
     case DETAIL_REVIEW:
+      return {
+        ...state,
+        details: action.payload,
+      };
+    case DETAIL_ADD_COMMENT:
       return {
         ...state,
         details: action.payload,

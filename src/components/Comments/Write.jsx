@@ -1,26 +1,28 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { addComment } from '../../redux/actions/comment';
+import { useDispatch, useSelector } from 'react-redux';
+import uuid from 'react-uuid';
+import { detailAddComment } from '../../redux/actions/review';
 
-function Write({ comments }) {
+function Write({ comments, productId, index }) {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
+  const detailList = useSelector((state) => state.review.details);
 
   const clickButton = useCallback(() => {
     const newCommentArr = [
       ...comments,
       {
-        id: 'id1',
-        username: 'project1',
+        id: uuid(),
+        username: 'Team7',
         target: null,
-        commment: value,
+        comment: value,
       },
     ];
-    dispatch(addComment(newCommentArr));
+    dispatch(detailAddComment(newCommentArr, detailList, productId, index));
     setValue('');
-  }, [comments, dispatch, value]);
+  }, [comments, detailList, dispatch, index, productId, value]);
 
   return (
     <WriteCustom>
@@ -65,4 +67,6 @@ const Button = styled.button`
 
 Write.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
+  productId: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
 };

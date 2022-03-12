@@ -24,7 +24,7 @@ function ReviewDetailsPage() {
   return (
     <Detail>
       <ListNav title="리뷰 상세보기" />
-      {detailList.map((item) => (
+      {detailList.map((item, key) => (
         <div key={item.id}>
           <div>
             <InfoTop username={item.username} createdAt={item.createdAt} />
@@ -35,7 +35,7 @@ function ReviewDetailsPage() {
             <Content review={item.review} />
           </div>
           <Comments>
-            <List comments={item.comments} />
+            <List comments={item.comments} productId={item.id} index={key} />
           </Comments>
         </div>
       ))}

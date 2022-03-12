@@ -5,6 +5,7 @@ export const LIKE_REVIEW = 'review/LIKE_REVIEW';
 export const UNLIKE_REVIEW = 'review/UNLIKE_REVIEW';
 export const SET_SORT_OPTION = 'review/SET_SORT_OPTION';
 export const DETAIL_REVIEW = 'reviews/DETAIL_REVIEW';
+export const DETAIL_ADD_COMMENT = 'revies/DETAIL_ADD_COMMENT';
 
 export const COMMENTS = 'comment/COMMENTS';
 export const ADD_COMMENT = 'comment/ADD_COMMENT';

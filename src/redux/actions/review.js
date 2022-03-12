@@ -7,6 +7,7 @@ import {
   UNLIKE_REVIEW,
   SET_SORT_OPTION,
   DETAIL_REVIEW,
+  DETAIL_ADD_COMMENT,
 } from './types';
 
 const SERVER_LESS_API = 'https://asia-northeast3-team-projects-343711.cloudfunctions.net/balaan-crawler-dev-contents';
@@ -54,3 +55,28 @@ export const detialReview = (id, reviewList) => ({
     ...reviewList.filter((item) => item.id !== id),
   ],
 });
+
+export const detailAddComment = (
+  newCommentArr,
+  detailList,
+  productId,
+  index,
+) => {
+  const newChangeObj = detailList.filter((item) => item.id === productId);
+  newChangeObj[0].comments = newCommentArr;
+  const newDetail = [
+    ...detailList.slice(0, index),
+    ...newChangeObj,
+    ...detailList.slice(index, detailList.length),
+  ];
+  const dupDetail = newDetail.reduce((acc, current) => {
+    if (acc.findIndex(({ id }) => id === current.id) === -1) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+  return {
+    type: DETAIL_ADD_COMMENT,
+    payload: dupDetail,
+  };
+};
