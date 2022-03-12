@@ -9,15 +9,15 @@ import {
 
 const initialState = {
   reviews: [],
-  sortOption: null,
+  options: {},
 };
 export default function review(state = initialState, action = {}) {
   switch (action.type) {
     case SET_REVIEWS: {
-      const newDatas = action.isInit ? action.payload
+      const newDatas = action.options.isInit ? action.payload
         : [...state.reviews, ...action.payload];
       return {
-        ...state,
+        options: action.options,
         reviews: newDatas.reduce((acc, current) => {
           if (acc.findIndex(({ id }) => id === current.id) === -1) {
             acc.push(current);
@@ -54,7 +54,7 @@ export default function review(state = initialState, action = {}) {
     case SET_SORT_OPTION:
       return {
         ...state,
-        sortOption: action.payload,
+        options: { ...state.options, sort: action.payload },
       };
     default:
       return state;

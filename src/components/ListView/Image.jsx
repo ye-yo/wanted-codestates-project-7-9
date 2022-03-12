@@ -13,10 +13,15 @@ export default Image;
 
 const ImageArea = styled.div`
   max-width: 500px;
+  height: 40rem;
+  text-align: center;
+  overflow: hidden;
 `;
 
 const Img = styled.img`
-  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 Image.propTypes = {

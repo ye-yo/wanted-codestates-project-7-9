@@ -12,19 +12,23 @@ const SERVER_LESS_API = 'https://asia-northeast3-team-projects-343711.cloudfunct
 
 export const setReviews = async (pageNo, perPage, sort, isInit) => {
   const request = await axios
-    .get(SERVER_LESS_API, { params: { pageNo, perPage, sort } })
+    .get(SERVER_LESS_API, { params: { pageNo, perPage, sort: sort?.value } })
     .then((res) => res.data)
     .catch((error) => error);
   return {
     type: SET_REVIEWS,
     payload: request,
-    isInit,
+    options: {
+      pageNo,
+      perPage,
+      sort,
+      isInit,
+    },
   };
 };
 
-export const refreshReviews = (datas) => ({
+export const refreshReviews = () => ({
   type: REFRESH_REVIEWS,
-  payload: datas,
 });
 
 export const addReview = (review) => ({

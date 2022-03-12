@@ -7,26 +7,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setReviews } from '../redux/actions/review';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 
-let page = 1;
 function GridView() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const listRef = useRef();
   const reviewList = useSelector((state) => state.review.reviews);
-  const sortOption = useSelector((state) => state.review.sortOption);
+  const fetchOptions = useSelector((state) => state.review.options);
 
   const getMoreItems = useCallback(() => {
-    setLoading(true);
-    page += 1;
-    dispatch(setReviews(page, 20, sortOption?.value));
-    setLoading(false);
+    if (fetchOptions?.pageNo) {
+      const { pageNo, perPage, sort } = fetchOptions;
+      setLoading(true);
+      dispatch(setReviews(pageNo + 1, perPage, sort));
+      setLoading(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
+  }, [dispatch, fetchOptions]);
+
+  const { setContainerRef, setLoading } = useInfiniteScroll({
+    getMoreItems, dataLength: reviewList.length,
+  });
 
   useEffect(() => {
-    dispatch(setReviews(1, 20, null, true));
+    const { sort } = fetchOptions;
+    dispatch(setReviews(1, 30, sort, true));
     setContainerRef(listRef);
+    // eslint-disable-next-line
   }, [dispatch, setContainerRef]);
 
   const handleClickImage = (reviewId) => {

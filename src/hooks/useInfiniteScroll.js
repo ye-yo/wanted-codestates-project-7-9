@@ -1,16 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 
-const useInfiniteScroll = ({ getMoreItems }) => {
+const useInfiniteScroll = ({ dataLength, getMoreItems }) => {
   const [containerRef, setContainerRef] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const onIntersect = useCallback(
     async ([entry], observer) => {
       if (entry.isIntersecting && !loading) {
-        setLoading(true);
         observer.unobserve(entry.target);
         await getMoreItems();
-        setLoading(false);
       }
     },
     [getMoreItems, loading],
@@ -29,7 +26,8 @@ const useInfiniteScroll = ({ getMoreItems }) => {
       observer.observe(target);
     }
     return () => observer?.disconnect();
-  });
+    // eslint-disable-next-line
+  }, [dataLength]);
 
   return {
     containerRef,
