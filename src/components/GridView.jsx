@@ -7,19 +7,18 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setReviews } from '../redux/actions/review';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
-// import useData from '../hooks/useData';
 
 let page = 0;
 function GridView({ datas }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const listRef = useRef();
-  // const fetchData = useData();
   const getMoreItems = useCallback(async () => {
     setLoading(true);
     page += 1;
-    await dispatch(setReviews(page, 20));
+    await dispatch(setReviews(page, 20, datas));
     setLoading(false);
+    // eslint-disable-next-line
   }, [dispatch]);
   const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
 
