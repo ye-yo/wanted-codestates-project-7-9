@@ -24,17 +24,20 @@ function ListView() {
   const reviewList = useSelector((state) => state.review.reviews);
   const fetchOptions = useSelector((state) => state.review.options);
 
-  const getMoreItems = useCallback(async () => {
-    if (fetchOptions?.pageNo) {
+  const getMoreItems = useCallback(() => {
+    if ((fetchOptions?.pageNo)) {
       const { pageNo, perPage, sort } = fetchOptions;
       setLoading(true);
-      await dispatch(setReviews(pageNo + 1, perPage, sort));
+      dispatch(setReviews(pageNo + 1, perPage, sort));
       setLoading(false);
     }
     // eslint-disable-next-line
-  }, [dispatch]);
+  }, [dispatch, fetchOptions]);
 
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
+  const { setContainerRef, setLoading } = useInfiniteScroll({
+    getMoreItems,
+    dataLength: reviewList.length,
+  });
 
   useEffect(() => {
     const { sort } = fetchOptions;
@@ -44,10 +47,9 @@ function ListView() {
   }, [dispatch, setContainerRef]);
 
   return (
-    <>
+    <div ref={listRef}>
       {reviewList.map((item) => (
         <ListPage
-          ref={listRef}
           key={item.id}
           onClick={() => detailPageClick(item.id)}
           onKeyDown={() => detailPageClick(item.id)}
@@ -61,7 +63,7 @@ function ListView() {
           <Content review={item.review} />
         </ListPage>
       ))}
-    </>
+    </div>
   );
 }
 

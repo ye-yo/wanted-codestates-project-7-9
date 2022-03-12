@@ -25,7 +25,7 @@ function GridView() {
   }, [dispatch, fetchOptions]);
 
   const { setContainerRef, setLoading } = useInfiniteScroll({
-    getMoreItems, dataLength: reviewList.length,
+    getMoreItems, dataLength: reviewList.length, type: 'grid',
   });
 
   useEffect(() => {
@@ -63,12 +63,12 @@ const GridViewWrap = styled.section`
 `;
 
 const ImageBox = styled.img`
-  width: 100%;
-  height: 100%;
-  max-height: calc((500px - 2px) / 3);
-  object-fit: cover;
+  width: calc((500px - 2px) / 3);
+  height: calc((500px - 2px) / 3);
   cursor: pointer;
+  object-fit: cover;
   @media only screen and (max-width: 500px) {
-    max-height: calc((100vw - 2px) / 3);
+    height: calc((100vw - 2px) / 3);
+    width: calc((100vw - 2px) / 3);
   }
 `;

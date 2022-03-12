@@ -27,7 +27,7 @@ const useInfiniteScroll = ({ dataLength, getMoreItems }) => {
     }
     return () => observer?.disconnect();
     // eslint-disable-next-line
-  }, [dataLength]);
+  }, [dataLength, containerRef]);
 
   return {
     containerRef,
