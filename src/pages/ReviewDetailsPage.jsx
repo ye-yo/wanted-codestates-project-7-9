@@ -28,7 +28,7 @@ function ReviewDetailsPage() {
         <div key={item.id}>
           <div>
             <InfoTop username={item.username} createdAt={item.createdAt} />
-            <Image src={item.images[0].src} />
+            <Image images={item.images} />
             <SocialArea likes={item.likes} />
             <Stars stars={item.stars} />
             <Desc description={item.description} />

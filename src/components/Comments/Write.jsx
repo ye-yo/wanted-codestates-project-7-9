@@ -24,11 +24,18 @@ function Write({ comments, productId, index }) {
     setValue('');
   }, [comments, detailList, dispatch, index, productId, value]);
 
+  const onkeyEnter = (e) => {
+    if (e.key === 'Enter') {
+      clickButton();
+    }
+  };
+
   return (
     <WriteCustom>
       <Input
         placeholder="댓글 달기"
         onChange={(e) => setValue(e.target.value)}
+        onKeyPress={onkeyEnter}
         value={value}
       />
       <Button onClick={clickButton}>게시</Button>
