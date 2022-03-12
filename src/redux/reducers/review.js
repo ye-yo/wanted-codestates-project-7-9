@@ -13,11 +13,19 @@ const initialState = {
 };
 export default function review(state = initialState, action = {}) {
   switch (action.type) {
-    case SET_REVIEWS:
+    case SET_REVIEWS: {
+      const newDatas = action.isInit ? action.payload
+        : [...state.reviews, ...action.payload];
       return {
         ...state,
-        reviews: action.isInit ? action.payload : [...state.reviews, ...action.payload],
+        reviews: newDatas.reduce((acc, current) => {
+          if (acc.findIndex(({ id }) => id === current.id) === -1) {
+            acc.push(current);
+          }
+          return acc;
+        }, []),
       };
+    }
     case REFRESH_REVIEWS:
       return {
         ...state,
@@ -32,20 +40,16 @@ export default function review(state = initialState, action = {}) {
     case LIKE_REVIEW:
       return {
         ...state,
-        reviews: state.reviews.map((data) => (
-          data.postNumber === action.payload
-            ? { ...data, likes: data.likes + 1 }
-            : data
-        )),
+        reviews: state.reviews.map((data) => (data.postNumber === action.payload
+          ? { ...data, likes: data.likes + 1 }
+          : data)),
       };
     case UNLIKE_REVIEW:
       return {
         ...state,
-        reviews: state.reviews.map((data) => (
-          data.postNumber === action.payload
-            ? { ...data, likes: data.likes - 1 }
-            : data
-        )),
+        reviews: state.reviews.map((data) => (data.postNumber === action.payload
+          ? { ...data, likes: data.likes - 1 }
+          : data)),
       };
     case SET_SORT_OPTION:
       return {

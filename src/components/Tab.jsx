@@ -25,7 +25,11 @@ function Tab() {
           </TabItem>
         ))}
       </TabRow>
-      {currentTab === 0 ? <GridView /> : <ListView />}
+      {currentTab === 0 ? (
+        <GridView />
+      ) : (
+        <ListView />
+      )}
     </TabWrap>
   );
 }
