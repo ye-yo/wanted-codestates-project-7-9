@@ -1,11 +1,16 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
 function Review() {
+  const navigate = useNavigate();
+  const onClickRegister = () => {
+    navigate('/register');
+  };
   return (
     <ReviewCustom>
       <Text>리뷰</Text>
-      <Button>리뷰등록</Button>
+      <Button onClick={onClickRegister}>리뷰등록</Button>
     </ReviewCustom>
   );
 }

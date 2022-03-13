@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// import { customAlphabet } from 'nanoid';
 import uuid from 'react-uuid';
 import { detailAddComment } from '../../redux/actions/review';
 
@@ -9,7 +10,7 @@ function Write({ comments, productId, index }) {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const detailList = useSelector((state) => state.review.details);
-
+  // const nanoid = customAlphabet('0123456789', 6);
   const clickButton = useCallback(() => {
     const newCommentArr = [
       ...comments,

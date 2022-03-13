@@ -1,10 +1,17 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Review from './Review';
 
 function Header() {
+  const navigate = useNavigate();
+
   return (
     <HeaderCustom>
-      <Logo src="https://i.balaan.io/mobile/img/icon/ico_logo.png" alt="logo" />
+      <Logo
+        onClick={() => navigate('/')}
+        src="https://i.balaan.io/mobile/img/icon/ico_logo.png"
+        alt="logo"
+      />
       <Review />
     </HeaderCustom>
   );

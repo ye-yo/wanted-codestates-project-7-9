@@ -11,6 +11,7 @@ import Desc from '../components/ListView/Desc';
 import Content from '../components/ListView/Content';
 import List from '../components/Comments/List';
 import { detialReview } from '../redux/actions/review';
+import Spinner from '../components/Spinner';
 
 function ReviewDetailsPage() {
   const { id } = useParams();
@@ -23,6 +24,7 @@ function ReviewDetailsPage() {
 
   return (
     <Detail>
+      {detailList.length === 0 ? <Spinner color="#4348a2" /> : ''}
       <ListNav title="리뷰 상세보기" />
       {detailList.map((item, key) => (
         <div key={item.id}>

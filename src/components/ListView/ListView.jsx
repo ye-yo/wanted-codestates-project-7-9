@@ -11,6 +11,7 @@ import SocialArea from './SocialArea';
 import Stars from './Stars';
 import { setReviews } from '../../redux/actions/review';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
+import Spinner from '../Spinner';
 
 let page = 0;
 function ListView({ datas }) {
@@ -29,7 +30,9 @@ function ListView({ datas }) {
     // eslint-disable-next-line
   }, [dispatch]);
 
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
+  const { setContainerRef, loading, setLoading } = useInfiniteScroll({
+    getMoreItems,
+  });
 
   useEffect(() => {
     getMoreItems();
@@ -38,6 +41,7 @@ function ListView({ datas }) {
 
   return (
     <>
+      {loading && <Spinner color="#4348a2" />}
       {datas.map((item) => (
         <ListPage
           ref={listRef}

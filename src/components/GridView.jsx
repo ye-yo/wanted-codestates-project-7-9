@@ -5,8 +5,10 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+// import { data } from 'cheerio/lib/api/attributes';
 import { setReviews } from '../redux/actions/review';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import Spinner from './Spinner';
 
 let page = 0;
 function GridView({ datas }) {
@@ -20,7 +22,9 @@ function GridView({ datas }) {
     setLoading(false);
     // eslint-disable-next-line
   }, [dispatch]);
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
+  const { setContainerRef, loading, setLoading } = useInfiniteScroll({
+    getMoreItems,
+  });
 
   useEffect(() => {
     getMoreItems();
@@ -33,6 +37,7 @@ function GridView({ datas }) {
 
   return (
     <GridViewWrap ref={listRef}>
+      {loading && <Spinner color="#4348a2" />}
       {datas.map((review) => (
         <ImageBox
           key={review.id}

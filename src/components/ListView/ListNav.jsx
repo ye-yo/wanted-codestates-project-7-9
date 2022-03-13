@@ -30,6 +30,7 @@ const Container = styled.header`
   background-color: ${(props) => props.theme.color.white};
   position: fixed;
   width: 500px;
+  z-index: 999;
 `;
 
 const Item = styled.div`

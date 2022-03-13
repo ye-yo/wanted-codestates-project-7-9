@@ -37,7 +37,7 @@ export default function review(state = initialState, action = {}) {
     case ADD_REVIEW: {
       return {
         ...state,
-        reviews: [...state.reviews, action.payload],
+        reviews: [action.payload, ...state.reviews],
       };
     }
     case LIKE_REVIEW:
