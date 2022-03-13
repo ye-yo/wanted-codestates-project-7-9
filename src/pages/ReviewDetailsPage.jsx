@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import ListNav from '../components/ListView/ListNav';
 import InfoTop from '../components/ListView/InfoTop';
 import Image from '../components/ListView/Image';
 import SocialArea from '../components/ListView/SocialArea';
@@ -12,6 +11,7 @@ import Content from '../components/ListView/Content';
 import List from '../components/Comments/List';
 import { detialReview } from '../redux/actions/review';
 import Spinner from '../components/Spinner';
+import ModalNav from '../components/ListNav';
 
 function ReviewDetailsPage() {
   const { id } = useParams();
@@ -25,7 +25,7 @@ function ReviewDetailsPage() {
   return (
     <Detail>
       {detailList.length === 0 ? <Spinner color="#4348a2" /> : ''}
-      <ListNav title="리뷰 상세보기" />
+      <ModalNav title="리뷰 상세보기" />
       {detailList.map((item, key) => (
         <div key={item.id}>
           <div>

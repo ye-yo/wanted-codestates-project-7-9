@@ -6,13 +6,13 @@ import Write from './Write';
 function List({ comments, productId, index }) {
   return (
     <>
-      {comments.map((commentItem) => (commentItem.target === null ? (
-        <Comment key={commentItem.id}>
+      {comments.map((commentItem, idx) => (commentItem.target === null ? (
+        <Comment key={commentItem.idx}>
           <h4>{commentItem.username}</h4>
           <p>{commentItem.comment}</p>
         </Comment>
       ) : (
-        <Comment key={commentItem.id} reply="replay">
+        <Comment key={commentItem.idx} reply="replay">
           <Top>
             <ReplyIcon />
             <h4>{commentItem.username}</h4>

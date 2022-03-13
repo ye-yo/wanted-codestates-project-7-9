@@ -28,4 +28,5 @@ const HeaderCustom = styled.header`
 const Logo = styled.img`
   max-width: 200px;
   width: 38vw;
+  cursor: pointer;
 `;

@@ -3,7 +3,7 @@ import { FiArrowLeft, FiX } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-function ListNav({ title }) {
+function ModalNav({ title }) {
   const navigate = useNavigate();
   const prevClick = () => {
     navigate('/');
@@ -18,7 +18,7 @@ function ListNav({ title }) {
   );
 }
 
-export default ListNav;
+export default ModalNav;
 
 const Container = styled.header`
   height: 60px;
@@ -30,7 +30,7 @@ const Container = styled.header`
   background-color: ${(props) => props.theme.color.white};
   position: fixed;
   width: 500px;
-  z-index: 999;
+  z-index: 30;
 `;
 
 const Item = styled.div`
@@ -50,6 +50,6 @@ const Close = styled(FiX)`
   padding-right: 1.6rem;
 `;
 
-ListNav.propTypes = {
+ModalNav.propTypes = {
   title: PropTypes.string.isRequired,
 };

@@ -2,20 +2,19 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { customAlphabet } from 'nanoid';
-import uuid from 'react-uuid';
+import { customAlphabet } from 'nanoid';
 import { detailAddComment } from '../../redux/actions/review';
 
 function Write({ comments, productId, index }) {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const detailList = useSelector((state) => state.review.details);
-  // const nanoid = customAlphabet('0123456789', 6);
+  const nanoid = customAlphabet('0123456789', 6);
   const clickButton = useCallback(() => {
     const newCommentArr = [
       ...comments,
       {
-        id: uuid(),
+        id: String(nanoid()),
         username: 'Team7',
         target: null,
         comment: value,
@@ -23,7 +22,7 @@ function Write({ comments, productId, index }) {
     ];
     dispatch(detailAddComment(newCommentArr, detailList, productId, index));
     setValue('');
-  }, [comments, detailList, dispatch, index, productId, value]);
+  }, [comments, detailList, dispatch, index, nanoid, productId, value]);
 
   const onkeyEnter = (e) => {
     if (e.key === 'Enter') {

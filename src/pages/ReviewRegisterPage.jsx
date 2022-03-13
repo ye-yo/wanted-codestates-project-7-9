@@ -7,6 +7,7 @@ import { customAlphabet } from 'nanoid';
 import moment from 'moment';
 import StarRating from '../components/StarRating';
 import { addReview } from '../redux/actions/review';
+import ModalNav from '../components/ListNav';
 
 function ReviewRegisterPage() {
   const [title, setTitle] = useState('');
@@ -63,71 +64,83 @@ function ReviewRegisterPage() {
   };
 
   return (
-    <Container onSubmit={handleSubmit}>
-      <TitleContainer>
-        <Title>제목</Title>
-        <TitleContent
-          placeholder="리뷰 제목을 입력해주세요."
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          value={title}
-        />
-      </TitleContainer>
-      <ContentContainer>
-        <Title>내용</Title>
-        <Content
-          placeholder="내용을 작성해주세요."
-          onChange={(e) => {
-            setContent(e.target.value);
-          }}
-          value={content}
-        />
-      </ContentContainer>
+    <Register>
+      <ModalNav title="리뷰 등록하기" />
+      <Container onSubmit={handleSubmit}>
+        <TitleContainer>
+          <Title>제목</Title>
+          <TitleContent
+            placeholder="리뷰 제목을 입력해주세요."
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+            value={title}
+          />
+        </TitleContainer>
+        <ContentContainer>
+          <Title>내용</Title>
+          <Content
+            placeholder="내용을 작성해주세요."
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
+            value={content}
+          />
+        </ContentContainer>
 
-      <ImageContainer>
-        <ImageTitle>
-          <Title>이미지 업로드</Title>
-        </ImageTitle>
-        <input
-          type="file"
-          accept="image/jpg,image/jpeg, image/png"
-          onChange={(e) => handlePhoto(e)}
-          multiple
-          ref={photoInput}
-          style={{ display: 'none' }}
-        />
-        <ImageAdd>
-          <UploadButton onClick={handleUploadClick}>+</UploadButton>
+        <ImageContainer>
+          <ImageTitle>
+            <Title>이미지 업로드</Title>
+          </ImageTitle>
+          <input
+            type="file"
+            accept="image/jpg,image/jpeg, image/png"
+            onChange={(e) => handlePhoto(e)}
+            multiple
+            ref={photoInput}
+            style={{ display: 'none' }}
+          />
+          <ImageAdd>
+            <UploadButton onClick={handleUploadClick}>+</UploadButton>
 
-          <ImageBox>
-            {photoAddList.map((photo) => (
-              <PhotoBox key={photo.id}>
-                <PhotoPreview src={photo.src} />
-                <FiXCircle onClick={() => RemoveAdd(photo.src)} />
-              </PhotoBox>
-            ))}
-          </ImageBox>
-        </ImageAdd>
-      </ImageContainer>
+            <ImageBox>
+              {photoAddList.map((photo) => (
+                <PhotoBox key={photo.id}>
+                  <PhotoPreview src={photo.src} />
+                  <FiXCircle onClick={() => RemoveAdd(photo.src)} />
+                </PhotoBox>
+              ))}
+            </ImageBox>
+          </ImageAdd>
+        </ImageContainer>
 
-      <StarContainer>
-        <StarTitle>상품은 어떠셨나요?</StarTitle>
-        <StarRating setStarCount={setStarCount} />
-      </StarContainer>
+        <StarContainer>
+          <StarTitle>상품은 어떠셨나요?</StarTitle>
+          <StarRating setStarCount={setStarCount} starCount={starCount} />
+        </StarContainer>
 
-      <RegisterButton type="submit">등록하기</RegisterButton>
-    </Container>
+        <RegisterButton type="submit">등록하기</RegisterButton>
+      </Container>
+    </Register>
   );
 }
 
 export default ReviewRegisterPage;
+
+const Register = styled.div`
+  position: absolute;
+  top: 0;
+  z-index: 50;
+  background-color: ${(props) => props.theme.color.white};
+  width: 100%;
+`;
 
 const Container = styled.form`
   display: flex;
   flex-direction: column;
   font-size: 1.4rem;
   padding: 30px;
+  padding-top: 5rem;
   gap: 40px;
 `;
 
