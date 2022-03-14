@@ -141,7 +141,7 @@ const Container = styled.form`
   font-size: 1.4rem;
   padding: 30px;
   padding-top: 5rem;
-  gap: 40px;
+  gap: 2rem;
 `;
 
 const TitleContainer = styled.label`
@@ -150,7 +150,9 @@ const TitleContainer = styled.label`
   gap: 5px;
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  font-size: 1.6rem;
+`;
 
 const TitleContent = styled.input`
   width: 100%;
@@ -174,7 +176,6 @@ const Content = styled.textarea`
   width: 100%;
   height: 100px;
   border: 1px solid #9da6a9;
-  font-size: 100%;
   text-indent: 1rem;
   padding-top: 10px;
   resize: none;
@@ -187,7 +188,9 @@ const Content = styled.textarea`
 `;
 
 const ImageContainer = styled.div``;
-const ImageTitle = styled.div``;
+const ImageTitle = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const UploadButton = styled.span`
   width: 100px;
@@ -197,7 +200,7 @@ const UploadButton = styled.span`
   align-items: center;
   justify-content: center;
   margin-right: 5px;
-
+  font-size: 3em;
   background: ${(props) => props.theme.color.black};
   color: ${(props) => props.theme.color.white};
 `;
@@ -230,18 +233,19 @@ const ImageAdd = styled.div`
 `;
 
 const StarContainer = styled.div`
-  margin-top: 30px;
-  margin-bottom: 50px;
 `;
 
 const StarTitle = styled.h2`
-  margin-bottom: 30px;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
 `;
 
 const RegisterButton = styled.button`
   width: 100%;
   height: 70px;
+  border: none;
   border-radius: 5px;
+  font-size: 1.6rem;
   background: ${(props) => props.theme.color.black};
   color: ${(props) => props.theme.color.white};
 `;
