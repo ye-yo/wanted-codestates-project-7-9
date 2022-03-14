@@ -52,6 +52,7 @@ const Detail = styled.div`
   top: 0;
   z-index: 50;
   background-color: ${(props) => props.theme.color.white};
+  max-width: 100%;
 `;
 
 const Comments = styled.div`

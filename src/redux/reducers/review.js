@@ -11,28 +11,28 @@ import {
 
 const initialState = {
   reviews: [],
-  sortOption: null,
+  options: {},
   details: [],
 };
 export default function review(state = initialState, action = {}) {
   switch (action.type) {
-    case SET_REVIEWS:
+    case SET_REVIEWS: {
+      const newDatas = action.options.isInit ? action.payload
+        : [...state.reviews, ...action.payload];
       return {
-        ...state,
-        reviews: [...state.reviews, ...action.payload].reduce(
-          (acc, current) => {
-            if (acc.findIndex(({ id }) => id === current.id) === -1) {
-              acc.push(current);
-            }
-            return acc;
-          },
-          [],
-        ),
+        options: action.options,
+        reviews: newDatas.reduce((acc, current) => {
+          if (acc.findIndex(({ id }) => id === current.id) === -1) {
+            acc.push(current);
+          }
+          return acc;
+        }, []),
       };
+    }
     case REFRESH_REVIEWS:
       return {
         ...state,
-        reviews: action.payload,
+        reviews: [],
       };
     case ADD_REVIEW: {
       return {
@@ -57,7 +57,7 @@ export default function review(state = initialState, action = {}) {
     case SET_SORT_OPTION:
       return {
         ...state,
-        sortOption: action.payload,
+        options: { ...state.options, sort: action.payload },
       };
     case DETAIL_REVIEW:
       return {

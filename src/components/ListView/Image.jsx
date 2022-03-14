@@ -36,6 +36,12 @@ export default Image;
 
 const ImageArea = styled.div`
   max-width: 500px;
+  height: 40rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
   position: relative;
 `;
 
@@ -58,7 +64,7 @@ const RightIcon = styled(FiChevronRight)`
 
 const Slide = styled.div`
   opacity: 1;
-  transition-duration: 1s ease;
+  transition: 1s ease;
   ${(props) => props.active
     && css`
       opacity: 1;
@@ -68,7 +74,9 @@ const Slide = styled.div`
 `;
 
 const Img = styled.img`
-  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 Image.propTypes = {

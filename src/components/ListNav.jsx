@@ -29,7 +29,8 @@ const Container = styled.header`
   box-shadow: rgb(204 204 204) 0px 0px px 0px;
   background-color: ${(props) => props.theme.color.white};
   position: fixed;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   z-index: 30;
 `;
 

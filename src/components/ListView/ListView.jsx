@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useCallback } from 'react';
 import Content from './Content';
 import Desc from './Desc';
@@ -13,8 +13,7 @@ import { setReviews } from '../../redux/actions/review';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import Spinner from '../Spinner';
 
-let page = 0;
-function ListView({ datas }) {
+function ListView() {
   const navigate = useNavigate();
   const detailPageClick = (id) => {
     navigate(`/details/${id}`);
@@ -22,27 +21,35 @@ function ListView({ datas }) {
 
   const dispatch = useDispatch();
   const listRef = useRef();
-  const getMoreItems = useCallback(async () => {
-    setLoading(true);
-    page += 1;
-    await dispatch(setReviews(page, 20, datas));
-    setLoading(false);
+  const reviewList = useSelector((state) => state.review.reviews);
+  const fetchOptions = useSelector((state) => state.review.options);
+  console.log(reviewList);
+  const getMoreItems = useCallback(() => {
+    if ((fetchOptions?.pageNo)) {
+      const { pageNo, perPage, sort } = fetchOptions;
+      setLoading(true);
+      dispatch(setReviews(pageNo + 1, perPage, sort));
+      setLoading(false);
+    }
     // eslint-disable-next-line
-  }, [dispatch]);
+  }, [dispatch, fetchOptions]);
 
-  const { setContainerRef, loading, setLoading } = useInfiniteScroll({
+  const { setContainerRef, setLoading, loading } = useInfiniteScroll({
     getMoreItems,
+    dataLength: reviewList.length,
   });
 
   useEffect(() => {
-    getMoreItems();
+    const { sort } = fetchOptions;
+    dispatch(setReviews(1, 10, sort, true));
     setContainerRef(listRef);
-  }, [getMoreItems, setContainerRef]);
+    // eslint-disable-next-line
+  }, [dispatch, setContainerRef]);
 
   return (
-    <>
+    <div ref={listRef}>
       {loading && <Spinner color="#4348a2" />}
-      {datas.map((item) => (
+      {reviewList.map((item) => (
         <ListPage
           ref={listRef}
           key={item.id}
@@ -51,14 +58,14 @@ function ListView({ datas }) {
           aria-hidden="true"
         >
           <InfoTop username={item.username} createdAt={item.createdAt} />
-          <Image images={item.images} />
+          <Image images={item?.images} />
           <SocialArea likes={item.likes} />
           <Stars stars={item.stars} />
           <Desc description={item.description} />
           <Content review={item.review} />
         </ListPage>
       ))}
-    </>
+    </div>
   );
 }
 
@@ -67,7 +74,3 @@ export default ListView;
 const ListPage = styled.div`
   cursor: pointer;
 `;
-
-ListView.propTypes = {
-  datas: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])).isRequired,
-};
