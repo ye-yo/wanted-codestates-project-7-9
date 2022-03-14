@@ -3,16 +3,16 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import Write from './Write';
 
-function List({ comments }) {
+function List({ comments, productId, index }) {
   return (
     <>
-      {comments.map((commentItem) => (commentItem.target === null ? (
-        <Comment key={commentItem.id}>
+      {comments.map((commentItem, idx) => (commentItem.target === null ? (
+        <Comment key={commentItem.idx}>
           <h4>{commentItem.username}</h4>
           <p>{commentItem.comment}</p>
         </Comment>
       ) : (
-        <Comment key={commentItem.id} reply="replay">
+        <Comment key={commentItem.idx} reply="replay">
           <Top>
             <ReplyIcon />
             <h4>{commentItem.username}</h4>
@@ -20,7 +20,7 @@ function List({ comments }) {
           <p>{commentItem.comment}</p>
         </Comment>
       )))}
-      <Write comments={comments} />
+      <Write comments={comments} productId={productId} index={index} />
     </>
   );
 }
@@ -46,4 +46,6 @@ const Comment = styled.div`
 
 List.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
+  productId: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
 };

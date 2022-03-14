@@ -1,4 +1,6 @@
-import { memo, useState, useCallback } from 'react';
+import {
+  memo, useState, useCallback, useMemo,
+} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +10,10 @@ import { setSortOption } from '../../redux/actions/review';
 
 function SortModal({ setIsOpenModal }) {
   const dispatch = useDispatch();
-  const sortOption = useSelector((state) => state.review.sortOption);
-  const [selected, setSelected] = useState(sortOption || SORT_OPTIONS[0]);
+  const fetchOptions = useSelector((state) => state.review.options);
+  const { sort } = useMemo(() => fetchOptions, [fetchOptions]);
+  const [selected, setSelected] = useState(sort || SORT_OPTIONS[0]);
+
   const handleClickApply = () => {
     dispatch(setSortOption(selected));
     toggleModal();
@@ -82,16 +86,17 @@ const SortList = memo(({ sortOption, onChange }) => (
     {SORT_OPTIONS.map((option) => (
       <RadioOption
         onClick={onChange}
-        key={option}
-        name={option}
-        checked={sortOption === option}
+        key={option.value}
+        name={option.name}
+        value={option.value}
+        checked={sortOption?.name === option.name}
       />
     ))}
   </SortListWrap>
 ));
 
 SortList.propTypes = {
-  sortOption: PropTypes.string.isRequired,
+  sortOption: PropTypes.objectOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

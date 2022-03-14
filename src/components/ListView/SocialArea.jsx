@@ -5,12 +5,15 @@ import PropTypes from 'prop-types';
 import Message from '../Message';
 
 function SocialArea({ likes }) {
-  const [likeArr, setlikeArr] = useState([likes, undefined]);
+  const [likeArr, setlikeArr] = useState([
+    likes === '' ? '0' : likes,
+    undefined,
+  ]);
   const [heartArr, setHeartArr] = useState([false, undefined]);
 
   const likeClick = useCallback(() => {
     const changeToNum = parseInt(likeArr[0], 10);
-    if (changeToNum === parseInt(likes, 10)) {
+    if (changeToNum === parseInt(likes === '' ? '0' : likes, 10)) {
       setlikeArr([changeToNum + 1, 'black']);
     } else {
       setlikeArr([changeToNum - 1, undefined]);
@@ -21,6 +24,9 @@ function SocialArea({ likes }) {
     setHeartArr([!heartArr[0], heartArr[0] ? 'black' : undefined]);
   }, [heartArr]);
 
+  // window 객체에서 현재 url 가져오기
+  const currentUrl = window.location.href;
+
   return (
     <InfoBottom>
       <Left>
@@ -30,7 +36,7 @@ function SocialArea({ likes }) {
             {likeArr[0]}
           </LikeNumber>
         </Like>
-        <Share />
+        <Share onClick={() => window.open(currentUrl)} />
       </Left>
       {heartArr[0] ? (
         <>

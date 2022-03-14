@@ -1,38 +1,49 @@
 import {
-  memo,
-  useEffect,
-  useRef,
-  useCallback,
+  memo, useEffect, useRef, useCallback,
 } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setReviews } from '../redux/actions/review';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
-import useData from '../hooks/useData';
+import Spinner from './Spinner';
 
-let page = 0;
-function GridView({ datas }) {
+const getGridPageNo = (pageNo, perPage) => ((perPage === 10 ? pageNo / 3 : pageNo) || 0) + 1;
+function GridView() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const listRef = useRef();
-  const fetchData = useData();
-  const getMoreItems = useCallback(async () => {
-    setLoading(true);
-    page += 1;
-    const data = await fetchData(page, 20);
-    dispatch(setReviews(data));
-    setLoading(false);
-  }, []);
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
+  const reviewList = useSelector((state) => state.review.reviews);
+  const fetchOptions = useSelector((state) => state.review.options);
 
-  useEffect(() => {
-    getMoreItems();
-  }, [getMoreItems]);
-  useEffect(() => {
+  const getMoreItems = useCallback(async () => {
+    if (fetchOptions?.pageNo) {
+      setLoading(true);
+      const { pageNo, perPage, sort } = fetchOptions;
+      const newPageNo = getGridPageNo(pageNo, perPage);
+      await dispatch(setReviews(newPageNo, 30, sort));
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, fetchOptions]);
+
+  const { setContainerRef, setLoading, loading } = useInfiniteScroll({
+    getMoreItems,
+    dataLength: reviewList.length,
+    type: 'grid',
+  });
+
+  useEffect(async () => {
+    if (reviewList.length === 0) {
+      setLoading(true);
+      const { pageNo, perPage, sort } = fetchOptions;
+      const newPageNo = getGridPageNo(pageNo, perPage);
+      await dispatch(setReviews(newPageNo, 30, sort));
+      setLoading(false);
+    }
     setContainerRef(listRef);
-  }, [setContainerRef]);
+    // eslint-disable-next-line
+  }, [dispatch, setContainerRef]);
 
   const handleClickImage = (reviewId) => {
     navigate(`/details/${reviewId}`);
@@ -40,7 +51,8 @@ function GridView({ datas }) {
 
   return (
     <GridViewWrap ref={listRef}>
-      {datas.map((review) => (
+      {loading && <Spinner color="#4348a2" />}
+      {reviewList.map((review) => (
         <ImageBox
           key={review.id}
           onClick={() => handleClickImage(review.id)}
@@ -53,10 +65,6 @@ function GridView({ datas }) {
 
 export default memo(GridView);
 
-GridView.propTypes = {
-  datas: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])).isRequired,
-};
-
 const GridViewWrap = styled.section`
   width: 100%;
   display: grid;
@@ -66,12 +74,12 @@ const GridViewWrap = styled.section`
 `;
 
 const ImageBox = styled.img`
-  width: 100%;
-  height: 100%;
-  max-height: calc((500px - 2px) / 3);
-  object-fit: cover;
+  width: calc((500px - 2px) / 3);
+  height: calc((500px - 2px) / 3);
   cursor: pointer;
+  object-fit: cover;
   @media only screen and (max-width: 500px) {
-    max-height: calc((100vw - 2px) / 3);
+    height: calc((100vw - 2px) / 3);
+    width: calc((100vw - 2px) / 3);
   }
 `;

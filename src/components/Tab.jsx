@@ -1,6 +1,5 @@
 import { BsGrid3X3, BsViewList } from 'react-icons/bs';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { memo, useState } from 'react';
 import styled from 'styled-components';
 import GridView from './GridView';
 import ListView from './ListView/ListView';
@@ -10,36 +9,8 @@ const iconList = [
   { index: 1, icon: <BsViewList /> },
 ];
 
-const sortRandom = (arr) => arr.sort(() => Math.random() - 0.5);
-const sortLikes = (arr) => arr.sort((a, b) => a.likes - b.likes);
-const sortComments = (arr) => arr.sort((a, b) => a.comments.length - b.comments.length);
-
 function Tab() {
   const [currentTab, setCurrentTab] = useState(0);
-  const reviewList = useSelector((state) => state.review.reviews);
-  const sortOption = useSelector((state) => state.review.sortOption);
-  const [sortedReviews, setSortedReviews] = useState(reviewList);
-  useEffect(() => {
-    setSortedReviews(reviewList);
-  }, [reviewList]);
-  useEffect(() => {
-    if (sortOption) {
-      const originReviews = [...reviewList];
-      switch (sortOption) {
-        case '좋아요 많은순':
-          return setSortedReviews(sortLikes(originReviews));
-        case '댓글 많은순':
-          return setSortedReviews(sortComments(originReviews));
-        case '랜덤순':
-          return setSortedReviews(sortRandom(originReviews));
-        default:
-          return setSortedReviews(originReviews);
-      }
-    } else {
-      return false;
-    }
-  }, [sortOption]);
-
   return (
     <TabWrap>
       <TabRow>
@@ -54,12 +25,16 @@ function Tab() {
           </TabItem>
         ))}
       </TabRow>
-      {currentTab === 0 ? <GridView datas={sortedReviews} /> : <ListView />}
+      {currentTab === 0 ? (
+        <GridView />
+      ) : (
+        <ListView />
+      )}
     </TabWrap>
   );
 }
 
-export default Tab;
+export default memo(Tab);
 const TabWrap = styled.section``;
 
 const TabRow = styled.section`

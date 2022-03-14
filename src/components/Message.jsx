@@ -22,7 +22,7 @@ const MessageCustom = styled.div`
   position: fixed;
   width: 20rem;
   height: 3rem;
-  z-index: 60;
+  z-index: 99;
   display: flex;
   justify-content: center;
   align-items: center;
