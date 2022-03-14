@@ -1,11 +1,14 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Button from './Button';
 
 function Review() {
   return (
     <ReviewCustom>
       <Text>리뷰</Text>
-      <Button>리뷰등록</Button>
+      <Link to="/register">
+        <Button>리뷰등록</Button>
+      </Link>
     </ReviewCustom>
   );
 }

@@ -1,8 +1,8 @@
 const SORT_OPTIONS = Object.freeze([
-  '최신순',
-  '좋아요 많은순',
-  '댓글 많은순',
-  '랜덤순',
+  { name: '최신순', value: 'recent' },
+  { name: '좋아요 많은순', value: 'likes' },
+  { name: '댓글 많은순', value: 'comments' },
+  { name: '랜덤순', value: 'random' },
 ]);
 
 SORT_OPTIONS.forEach(Object.freeze);

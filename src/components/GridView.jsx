@@ -3,29 +3,37 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setReviews } from '../redux/actions/review';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 
-let page = 0;
-function GridView({ datas }) {
+function GridView() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const listRef = useRef();
-  const getMoreItems = useCallback(async () => {
-    setLoading(true);
-    page += 1;
-    await dispatch(setReviews(page, 20, datas));
-    setLoading(false);
-    // eslint-disable-next-line
-  }, [dispatch]);
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
+  const reviewList = useSelector((state) => state.review.reviews);
+  const fetchOptions = useSelector((state) => state.review.options);
+
+  const getMoreItems = useCallback(() => {
+    if (fetchOptions?.pageNo) {
+      const { pageNo, perPage, sort } = fetchOptions;
+      setLoading(true);
+      dispatch(setReviews(pageNo + 1, perPage, sort));
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, fetchOptions]);
+
+  const { setContainerRef, setLoading } = useInfiniteScroll({
+    getMoreItems, dataLength: reviewList.length, type: 'grid',
+  });
 
   useEffect(() => {
-    getMoreItems();
+    const { sort } = fetchOptions;
+    dispatch(setReviews(1, 30, sort, true));
     setContainerRef(listRef);
-  }, [getMoreItems, setContainerRef]);
+    // eslint-disable-next-line
+  }, [dispatch, setContainerRef]);
 
   const handleClickImage = (reviewId) => {
     navigate(`/details/${reviewId}`);
@@ -33,7 +41,7 @@ function GridView({ datas }) {
 
   return (
     <GridViewWrap ref={listRef}>
-      {datas.map((review) => (
+      {reviewList.map((review) => (
         <ImageBox
           key={review.id}
           onClick={() => handleClickImage(review.id)}
@@ -46,10 +54,6 @@ function GridView({ datas }) {
 
 export default memo(GridView);
 
-GridView.propTypes = {
-  datas: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])).isRequired,
-};
-
 const GridViewWrap = styled.section`
   width: 100%;
   display: grid;
@@ -59,12 +63,12 @@ const GridViewWrap = styled.section`
 `;
 
 const ImageBox = styled.img`
-  width: 100%;
-  height: 100%;
-  max-height: calc((500px - 2px) / 3);
-  object-fit: cover;
+  width: calc((500px - 2px) / 3);
+  height: calc((500px - 2px) / 3);
   cursor: pointer;
+  object-fit: cover;
   @media only screen and (max-width: 500px) {
-    max-height: calc((100vw - 2px) / 3);
+    height: calc((100vw - 2px) / 3);
+    width: calc((100vw - 2px) / 3);
   }
 `;

@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { useEffect, useRef, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  useEffect, useRef, useCallback,
+} from 'react';
 import Content from './Content';
 import Desc from './Desc';
 import Image from './Image';
@@ -12,8 +13,7 @@ import Stars from './Stars';
 import { setReviews } from '../../redux/actions/review';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
-let page = 0;
-function ListView({ datas }) {
+function ListView() {
   const navigate = useNavigate();
   const detailPageClick = (id) => {
     navigate(`/details/${id}`);
@@ -21,26 +21,35 @@ function ListView({ datas }) {
 
   const dispatch = useDispatch();
   const listRef = useRef();
-  const getMoreItems = useCallback(async () => {
-    setLoading(true);
-    page += 1;
-    await dispatch(setReviews(page, 20, datas));
-    setLoading(false);
-    // eslint-disable-next-line
-  }, [dispatch]);
+  const reviewList = useSelector((state) => state.review.reviews);
+  const fetchOptions = useSelector((state) => state.review.options);
 
-  const { setContainerRef, setLoading } = useInfiniteScroll({ getMoreItems });
+  const getMoreItems = useCallback(() => {
+    if ((fetchOptions?.pageNo)) {
+      const { pageNo, perPage, sort } = fetchOptions;
+      setLoading(true);
+      dispatch(setReviews(pageNo + 1, perPage, sort));
+      setLoading(false);
+    }
+    // eslint-disable-next-line
+  }, [dispatch, fetchOptions]);
+
+  const { setContainerRef, setLoading } = useInfiniteScroll({
+    getMoreItems,
+    dataLength: reviewList.length,
+  });
 
   useEffect(() => {
-    getMoreItems();
+    const { sort } = fetchOptions;
+    dispatch(setReviews(1, 10, sort, true));
     setContainerRef(listRef);
-  }, [getMoreItems, setContainerRef]);
+    // eslint-disable-next-line
+  }, [dispatch, setContainerRef]);
 
   return (
-    <>
-      {datas.map((item) => (
+    <div ref={listRef}>
+      {reviewList.map((item) => (
         <ListPage
-          ref={listRef}
           key={item.id}
           onClick={() => detailPageClick(item.id)}
           onKeyDown={() => detailPageClick(item.id)}
@@ -54,7 +63,7 @@ function ListView({ datas }) {
           <Content review={item.review} />
         </ListPage>
       ))}
-    </>
+    </div>
   );
 }
 
@@ -63,7 +72,3 @@ export default ListView;
 const ListPage = styled.div`
   cursor: pointer;
 `;
-
-ListView.propTypes = {
-  datas: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])).isRequired,
-};

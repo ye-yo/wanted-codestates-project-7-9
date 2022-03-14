@@ -10,20 +10,25 @@ import {
 
 const SERVER_LESS_API = 'https://asia-northeast3-team-projects-343711.cloudfunctions.net/balaan-crawler-dev-contents';
 
-export const setReviews = (pageNo, perPage) => {
-  const request = axios
-    .get(SERVER_LESS_API, { params: { pageNo, perPage } })
+export const setReviews = async (pageNo, perPage, sort, isInit) => {
+  const request = await axios
+    .get(SERVER_LESS_API, { params: { pageNo, perPage, sort: sort?.value } })
     .then((res) => res.data)
     .catch((error) => error);
   return {
     type: SET_REVIEWS,
     payload: request,
+    options: {
+      pageNo,
+      perPage,
+      sort,
+      isInit,
+    },
   };
 };
 
-export const refreshReviews = (datas) => ({
+export const refreshReviews = () => ({
   type: REFRESH_REVIEWS,
-  payload: datas,
 });
 
 export const addReview = (review) => ({

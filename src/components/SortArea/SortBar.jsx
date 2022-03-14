@@ -1,36 +1,40 @@
 import styled from 'styled-components';
-import { useState, useCallback } from 'react';
+import {
+  useState, useCallback, useMemo, useEffect,
+} from 'react';
 import { IoRefreshOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { refreshReviews } from '../../redux/actions/review';
+import { setReviews } from '../../redux/actions/review';
 import Selector from './Selector';
 import SortModal from './SortModal';
 import { RoundedButton } from '../Button';
 import SORT_OPTIONS from '../../constants/sort';
-import useData from '../../hooks/useData';
 
 function SortBar() {
   const dispatch = useDispatch();
-  const fetchData = useData();
-  const sortOption = useSelector(
-    (state) => state.review.sortOption || SORT_OPTIONS[0],
-  );
+  const options = useSelector((state) => state.review.options);
+  const { perPage, sort } = useMemo(() => options, [options]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const toggleModal = useCallback(() => {
     setIsOpenModal((isOpen) => !isOpen);
   }, []);
 
-  const handleClickRefresh = async () => {
-    const data = await fetchData(1, 20);
-    dispatch(refreshReviews(data));
-  };
+  const handleClickRefresh = useCallback(() => {
+    dispatch(setReviews(1, perPage, sort, true));
+  }, [dispatch, perPage, sort]);
+
+  useEffect(() => {
+    if (sort) {
+      handleClickRefresh();
+    }
+  }, [sort, handleClickRefresh]);
 
   return (
     <FilterRow>
       <Selector name="정렬" onClick={toggleModal} />
       <FilterButton>전체</FilterButton>
-      <FilterButton>{sortOption}</FilterButton>
+      <FilterButton>{sort?.name || SORT_OPTIONS[0].name}</FilterButton>
       <RefreshButton onClick={handleClickRefresh} />
       {isOpenModal && <SortModal setIsOpenModal={setIsOpenModal} />}
     </FilterRow>
