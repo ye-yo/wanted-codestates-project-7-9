@@ -2,7 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useCallback } from 'react';
+import {
+  useEffect, useRef, useCallback, useState,
+} from 'react';
 import Content from './Content';
 import Desc from './Desc';
 import Image from './Image';
@@ -12,6 +14,8 @@ import Stars from './Stars';
 import { setReviews } from '../../redux/actions/review';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import Spinner from '../Spinner';
+
+const getListPageNo = (pageNo, perPage) => (perPage === 30 ? (pageNo * 3) : pageNo) + 1;
 
 function ListView() {
   const navigate = useNavigate();
@@ -23,12 +27,14 @@ function ListView() {
   const listRef = useRef();
   const reviewList = useSelector((state) => state.review.reviews);
   const fetchOptions = useSelector((state) => state.review.options);
-  console.log(reviewList);
-  const getMoreItems = useCallback(() => {
+  const [isDoneInit, setIsDoneInit] = useState(false);
+
+  const getMoreItems = useCallback(async () => {
     if ((fetchOptions?.pageNo)) {
       const { pageNo, perPage, sort } = fetchOptions;
       setLoading(true);
-      dispatch(setReviews(pageNo + 1, perPage, sort));
+      const newPageNo = getListPageNo(pageNo, perPage);
+      await dispatch(setReviews(newPageNo, 10, sort));
       setLoading(false);
     }
     // eslint-disable-next-line
@@ -39,11 +45,15 @@ function ListView() {
     dataLength: reviewList.length,
   });
 
-  useEffect(() => {
-    const { sort } = fetchOptions;
-    dispatch(setReviews(1, 10, sort, true));
+  useEffect(async () => {
+    if (reviewList.length === 0) {
+      setLoading(true);
+      const { pageNo, perPage, sort } = fetchOptions;
+      const newPageNo = getListPageNo(pageNo, perPage);
+      await dispatch(setReviews(newPageNo, 10, sort));
+      setLoading(false);
+    }
     setContainerRef(listRef);
-    // eslint-disable-next-line
   }, [dispatch, setContainerRef]);
 
   return (

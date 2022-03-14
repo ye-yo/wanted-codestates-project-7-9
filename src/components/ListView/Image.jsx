@@ -36,13 +36,13 @@ export default Image;
 
 const ImageArea = styled.div`
   max-width: 500px;
-  height: 40rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  max-height: 40rem;
   text-align: center;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const LeftIcon = styled(FiChevronLeft)`

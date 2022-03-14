@@ -16,7 +16,8 @@ const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 80px 1.6rem 2rem;
+  padding: 2rem 1.6rem;
+  margin-top: 56px;
 `;
 
 const Id = styled.span`

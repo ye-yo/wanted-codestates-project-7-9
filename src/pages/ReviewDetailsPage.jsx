@@ -24,9 +24,9 @@ function ReviewDetailsPage() {
 
   return (
     <Detail>
-      {detailList.length === 0 ? <Spinner color="#4348a2" /> : ''}
+      {detailList?.length === 0 ? <Spinner color="#4348a2" /> : ''}
       <ModalNav title="리뷰 상세보기" />
-      {detailList.map((item, key) => (
+      {detailList?.map((item, key) => (
         <div key={item.id}>
           <div>
             <InfoTop username={item.username} createdAt={item.createdAt} />

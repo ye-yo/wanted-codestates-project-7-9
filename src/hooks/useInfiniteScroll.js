@@ -5,7 +5,7 @@ const useInfiniteScroll = ({ dataLength, getMoreItems }) => {
   const [loading, setLoading] = useState(false);
   const onIntersect = useCallback(
     async ([entry], observer) => {
-      if (entry.isIntersecting && !loading) {
+      if (entry.isIntersecting) {
         observer.unobserve(entry.target);
         await getMoreItems();
       }

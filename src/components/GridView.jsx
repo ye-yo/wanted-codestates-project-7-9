@@ -8,6 +8,7 @@ import { setReviews } from '../redux/actions/review';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import Spinner from './Spinner';
 
+const getGridPageNo = (pageNo, perPage) => ((perPage === 10 ? pageNo / 3 : pageNo) || 0) + 1;
 function GridView() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,9 +18,10 @@ function GridView() {
 
   const getMoreItems = useCallback(async () => {
     if (fetchOptions?.pageNo) {
-      const { pageNo, perPage, sort } = fetchOptions;
       setLoading(true);
-      dispatch(setReviews(pageNo + 1, perPage, sort));
+      const { pageNo, perPage, sort } = fetchOptions;
+      const newPageNo = getGridPageNo(pageNo, perPage);
+      await dispatch(setReviews(newPageNo, 30, sort));
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,18 +34,21 @@ function GridView() {
   });
 
   useEffect(async () => {
-    const { sort } = fetchOptions;
+    if (reviewList.length === 0) {
+      setLoading(true);
+      const { pageNo, perPage, sort } = fetchOptions;
+      const newPageNo = getGridPageNo(pageNo, perPage);
+      await dispatch(setReviews(newPageNo, 30, sort));
+      setLoading(false);
+    }
     setContainerRef(listRef);
-    setLoading(true);
-    await dispatch(setReviews(1, 30, sort, true));
-    setLoading(false);
     // eslint-disable-next-line
   }, [dispatch, setContainerRef]);
 
   const handleClickImage = (reviewId) => {
     navigate(`/details/${reviewId}`);
   };
-  console.log(reviewList.length, loading);
+
   return (
     <GridViewWrap ref={listRef}>
       {loading && <Spinner color="#4348a2" />}

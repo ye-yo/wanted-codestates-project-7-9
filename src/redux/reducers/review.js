@@ -21,6 +21,7 @@ export default function review(state = initialState, action = {}) {
         : [...state.reviews, ...action.payload];
       return {
         options: action.options,
+        reviews: newDatas,
         reviews: newDatas.reduce((acc, current) => {
           if (acc.findIndex(({ id }) => id === current.id) === -1) {
             acc.push(current);
