@@ -65,6 +65,8 @@ const ModalBottomBox = styled.div`
   background-color: #fff;
   z-index: 10;
   padding: 1rem 1.4rem;
+  max-width: 500px;
+  margin: auto auto 0;
 `;
 
 const Title = styled.p`
