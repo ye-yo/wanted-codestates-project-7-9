@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  useEffect, useRef, useCallback, useState,
+  useEffect, useRef, useCallback,
 } from 'react';
 import Content from './Content';
 import Desc from './Desc';
@@ -27,7 +26,6 @@ function ListView() {
   const listRef = useRef();
   const reviewList = useSelector((state) => state.review.reviews);
   const fetchOptions = useSelector((state) => state.review.options);
-  const [isDoneInit, setIsDoneInit] = useState(false);
 
   const getMoreItems = useCallback(async () => {
     if ((fetchOptions?.pageNo)) {
@@ -45,15 +43,19 @@ function ListView() {
     dataLength: reviewList.length,
   });
 
-  useEffect(async () => {
-    if (reviewList.length === 0) {
-      setLoading(true);
-      const { pageNo, perPage, sort } = fetchOptions;
-      const newPageNo = getListPageNo(pageNo, perPage);
-      await dispatch(setReviews(newPageNo, 10, sort));
-      setLoading(false);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      if (reviewList.length === 0) {
+        setLoading(true);
+        const { pageNo, perPage, sort } = fetchOptions;
+        const newPageNo = getListPageNo(pageNo, perPage);
+        await dispatch(setReviews(newPageNo, 10, sort));
+        setLoading(false);
+      }
+    };
+    fetchData();
     setContainerRef(listRef);
+    // eslint-disable-next-line
   }, [dispatch, setContainerRef]);
 
   return (

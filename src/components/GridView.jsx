@@ -33,14 +33,17 @@ function GridView() {
     type: 'grid',
   });
 
-  useEffect(async () => {
-    if (reviewList.length === 0) {
-      setLoading(true);
-      const { pageNo, perPage, sort } = fetchOptions;
-      const newPageNo = getGridPageNo(pageNo, perPage);
-      await dispatch(setReviews(newPageNo, 30, sort));
-      setLoading(false);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      if (reviewList.length === 0) {
+        setLoading(true);
+        const { pageNo, perPage, sort } = fetchOptions;
+        const newPageNo = getGridPageNo(pageNo, perPage);
+        await dispatch(setReviews(newPageNo, 30, sort));
+        setLoading(false);
+      }
+    };
+    fetchData();
     setContainerRef(listRef);
     // eslint-disable-next-line
   }, [dispatch, setContainerRef]);

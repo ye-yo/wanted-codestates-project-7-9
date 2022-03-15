@@ -10,7 +10,7 @@ const useInfiniteScroll = ({ dataLength, getMoreItems }) => {
         await getMoreItems();
       }
     },
-    [getMoreItems, loading],
+    [getMoreItems],
   );
 
   useEffect(() => {
